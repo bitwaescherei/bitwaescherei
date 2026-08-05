@@ -1,0 +1,53 @@
+name: Deploy multi-architecture Docker images with buildx
+
+on:
+  pull_request:
+    branches: master
+  push:
+    branches: master
+    tags: '*'
+
+jobs:
+  buildx:
+    permissions:
+      packages: write # for pushing ghcr images
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Prepare
+        id: prepare
+        run: echo "version=${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v4
+        with:
+          platforms: linux/arm64
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+      - name: Build and push container image
+        uses: docker/build-push-action@v7
+        with:
+          build-args: VERSION=${{ steps.prepare.outputs.version }}
+          file: config/Containerfile
+          platforms:
+            - linux/amd64
+            - linux/arm64
+          tags: ghcr.io/bitwaescherei/bitwaescherei:${{ steps.prepare.outputs.version }}
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v4
+        if: success() && github.event_name != 'pull_request' && github.ref != 'refs/heads/master'
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+      - name: Build and push container image
+        uses: docker/build-push-action@v7
+        if: success() && github.event_name != 'pull_request' && github.ref != 'refs/heads/master'
+        with:
+          build-args: VERSION=${{ steps.prepare.outputs.version }}
+          file: config/Containerfile
+          platforms:
+            - linux/amd64
+            - linux/arm64
+          push: true
+          tags: ghcr.io/bitwaescherei/bitwaescherei:${{ steps.prepare.outputs.version }}
