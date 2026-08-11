@@ -1,0 +1,35 @@
+FROM alpine:3.24
+
+# user nginx, group www-data
+ARG UID=100
+ARG GID=82
+
+LABEL org.opencontainers.image.authors="Bitwäscherei" \
+      org.opencontainers.image.source=https://github.com/bitwaescherei/bitwaescherei \
+      org.opencontainers.image.version="${VERSION}"
+
+RUN \
+# Install dependencies
+    apk add --upgrade --no-cache \
+        freeunit-php85 \
+        php85-intl \
+        php85-pdo_sqlite \
+        php85-session \
+        tzdata \
+    && \
+# Create working directory
+    mkdir -p /var/www/public && \
+# Support running unit under a non-root user
+    chown -R ${UID}:${GID} /run /var/www /var/lib/unit
+
+COPY --chown=${UID}:${GID} config/conf.json /var/lib/unit/
+COPY --chown=${UID}:${GID} site /var/www/public
+
+USER ${UID}:${GID}
+EXPOSE 8080/tcp
+VOLUME /run /tmp /var/lib/unit
+WORKDIR /var/www
+
+HEALTHCHECK CMD ["wget", "-qO/dev/null", "http://localhost:8080"]
+ENTRYPOINT ["/usr/sbin/unitd"]
+CMD ["--no-daemon", "--log", "/dev/stdout", "--tmpdir", "/tmp"]

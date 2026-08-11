@@ -1,0 +1,61 @@
+{
+    "listeners": {
+        "*:8080": {
+            "pass": "routes"
+        },
+        "[::]:8080": {
+            "pass": "routes"
+        }
+    },
+    "routes": [
+        {
+            "match": {
+                "uri": "~[^/]+$"
+            },
+            "action": {
+                "share": "/var/www/public${uri}"
+            }
+        },
+        {
+            "action": {
+                "pass": "applications/php"
+            }
+        }
+    ],
+    "applications": {
+        "php": {
+            "type": "php",
+            "root": "/var/www/public/",
+            "options": {
+                "file": "/etc/php85/php.ini",
+                "admin": {
+                    "display_errors": "Off",
+                    "log_errors": "On",
+                    "short_open_tag": "Off",
+                    "expose_php": "Off",
+                    "error_reporting": "-1",
+                    "opcache.max_accelerated_files": "20000",
+                    "realpath_cache_size": "4096K"
+                }
+            },
+            "processes": {
+                "max": 5,
+                "spare": 2,
+                "idle_timeout": 35
+            }
+        }
+    },
+    "settings": {
+        "http": {
+            "static": {
+                "mime_types": {
+                    "application/wasm": [".wasm"]
+                }
+            }
+        }
+    },
+    "access_log": {
+        "path": "/dev/stdout",
+        "format": "$remote_addr - - [$time_local] \"$request_line\" $status $body_bytes_sent \"$header_referer\" \"$header_user_agent\" \"$header_x_forwarded_for\""
+    }
+}
