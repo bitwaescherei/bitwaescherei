@@ -520,7 +520,7 @@ $page = new Page();
 					<a data-modal="modal-one" style="cursor:pointer">Impressum &amp; Datenschutz</a>
 				</div>
 				<div class="w-1/3 text-right">
-					<a href="https://github.com/tikey23/bitwaescherei" target="_blank">
+					<a href="https://github.com/bitwaescherei/bitwaescherei" target="_blank">
 						Fork on Github:
 						<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
 							 width="30" height="30"
