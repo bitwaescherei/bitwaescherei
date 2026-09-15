@@ -10,6 +10,14 @@
     "routes": [
         {
             "match": {
+                "uri": "*.php"
+            },
+            "action": {
+                "pass": "applications/php"
+            }
+        },
+        {
+            "match": {
                 "uri": "~[^/]+$"
             },
             "action": {
