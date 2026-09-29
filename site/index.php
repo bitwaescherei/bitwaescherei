@@ -34,7 +34,7 @@ $page = new Page();
 				<blockquote class="lg:ml-12 lg:text-right">
 					<div class="ml-1 -mt-2 mb-8 text-xl font-bold">Hackerspace-Kollektiv in Zürich</div>
 					<p>
-						Im Sommer 2020 entstand eine neue Hackerspace Gemeinschaft im Herzen von Zürich, als kollektives Unterfangen im Zusammenschluss von Chaos Computer Club Zürich <span class="text-xs bg-teal-700 text-gray-100 ring-1 ring-purple-400 px-1.5 py-1 mx-1 rounded">CCCZH</span>, Schweizerische Gesellschaft für Mechatronische Kunst <span class="text-xs bg-teal-700 text-gray-100 ring-1 ring-purple-400 px-1.5 py-1 mx-1 rounded">SGMK</span>, Digitale Gesellschaft <span class="text-xs bg-teal-700 text-gray-100 ring-1 ring-purple-400 px-1.5 py-1 mx-1 rounded">DigiGes</span>, Linux User Group Schweiz <span class="text-xs bg-teal-700 text-gray-100 ring-1 bg-teal-700 px-1.5 py-1 mx-1 rounded">LUGS</span>, und später dazugestossen sind dann noch das Real Life Café <span class="text-xs bg-teal-700 text-gray-100 ring-1 ring-purple-400 px-1.5 py-1 mx-1 rounded">RL</span> und Hackteria.
+						Im Sommer 2020 entstand eine neue Hackerspace Gemeinschaft im Herzen von Zürich, als kollektives Unterfangen im Zusammenschluss von Chaos Computer Club Zürich <span class="text-xs bg-teal-700 text-gray-100 ring-1 ring-purple-400 px-1.5 py-1 mx-1 rounded">CCCZH</span>, Schweizerische Gesellschaft für Mechatronische Kunst <span class="text-xs bg-teal-700 text-gray-100 ring-1 ring-purple-400 px-1.5 py-1 mx-1 rounded">SGMK</span>, Digitale Gesellschaft <span class="text-xs bg-teal-700 text-gray-100 ring-1 ring-purple-400 px-1.5 py-1 mx-1 rounded">DigiGes</span>, Linux User Group Schweiz <span class="text-xs bg-teal-700 text-gray-100 ring-1 bg-teal-700 px-1.5 py-1 mx-1 rounded">LUGS</span>, und später dazugestossen sind dann noch Hackteria und der UwU-Space.
 					</p>
 				</blockquote>
 
@@ -86,10 +86,10 @@ $page = new Page();
 					<br>
 					<img src="/static/img/logos/hackteria.png" class="m-auto" style="height:80px;">
 				</a>
-				<a href="https://reallifecafe.ch" target="_blank" class="transition bg-gradient-to-bl from-blue-800 to-purple-800 brightness-100 hover:brightness-50 ring-1 ring-purple-400 rounded p-2">
-					<div class="font-weight-bold pt-1">Real-life Café</div>
+				<a href="https://uwu-space.ch/" target="_blank" class="transition bg-gradient-to-bl from-blue-800 to-purple-800 brightness-100 hover:brightness-50 ring-1 ring-purple-400 rounded p-2">
+					<div class="font-weight-bold pt-1">UwU-Space</div>
 					<br>
-					<img src="/static/img/logos/reallife.png" class="m-auto" style="height:80px;">
+					<img src="/static/img/logos/uwu-space-logo.png" class="m-auto" style="height:80px;">
 				</a>
 			</div>
 
@@ -138,7 +138,7 @@ $page = new Page();
 					<!--												<div class="text-3xl">Bitwäscherei-Party</div>-->
 					<!--												<br>-->
 					<!--												<p>-->
-					<!--													Vieles hat sich in den letzten Monaten getan in der Bitwäscherei. Unter anderem sind zwei neue Vereine (Real Life Café und Hackteria) der Bitwäscherei beigetreten. Zeit, dies mit einer Party zu begiessen. Die Party findet am 15. Oktober 2022 ab 15.00 Uhr in der Bitwäscherei, 3. Stock ZWZ, Neue Hard 12, in Zürich statt.-->
+					<!--													Vieles hat sich in den letzten Monaten getan in der Bitwäscherei. Unter anderem sind zwei neue Vereine (Hackteria und UwU-Space) der Bitwäscherei beigetreten. Zeit, dies mit einer Party zu begiessen. Die Party findet am 15. Oktober 2022 ab 15.00 Uhr in der Bitwäscherei, 3. Stock ZWZ, Neue Hard 12, in Zürich statt.-->
 					<!--												</p>-->
 					<!--												<p>-->
 					<!--													Wir beginnen die Party mit einer Kurzvorstellung aller Vereine und allfälliger persönlicher Projekte. Danach beginnt der lockere Teil des Anlasses.-->
@@ -153,6 +153,9 @@ $page = new Page();
 						</li>
 						<li><span class="font-bold"><a href="https://www.ccczh.ch/" target="_blank">ChaosTreff</a> - jeden Mittwoch&nbsp;ab 19 Uhr</span><br>
 							Das offene Treffen des Chaos Computer Club Zürich, bei dem der Spass am Gerät grossgeschrieben wird, ohne aber den gesellschaftlichen Blick zu verlieren. Komm vorbei um verstehen zu lernen, oder aber beteilige Dich direkt an technischen und politischen Projekten.
+						</li>
+						<li><span class="font-bold"><a href="https://uwu-space.ch" target="_blank">UwU-Space</a> - jeden Mittwoch&nbsp;ab 19 Uhr</span><br>
+							We are a Queer Hackspace centered around Zürich. We welcome all autistic sciencing around, from tech to trains and even chemistry. We are primarily English-speaking.
 						</li>
 						<li><span class="font-bold"><a href="https://www.lugs.ch/lugs/" target="_blank">Treff der Linux User Group Schweiz</a> - jede zweite Woche iternierend <a href="https://www.lugs.ch/lugs/termine/" target="_blank">Donnerstags oder Freitags</a> von 19 bis 21 Uhr</span><br>
 							Treffen und Vorträge rund um Linux und Open Source.&nbsp;Durch&nbsp;den persönlichen Charakter wird der Einstieg in dieses weltweite Netzwerk leichter. 1994 gegründet und ist die erste Vereinigung der Schweiz, die sich ausschliesslich zur Aufgabe gemacht hat, Linux zu unterstützen.
@@ -169,10 +172,6 @@ $page = new Page();
 						<li>
 							<span class="font-bold"><a href="https://openstreetmap.org" target="_blank">Open Street Map</a> - Stammtisch jeweils am 11. des Monats ab 18:30 Uhr</span><br>
 							Beim <a href="https://wiki.openstreetmap.org/wiki/DE:Switzerland:Z%C3%BCrich/OSM-Treffen">Zürcher Stammtisch der OpenStreetMapper/innen</a> wird aktiv an Open Street Map weitergearbeitet, überarbeitet, überprüft und überblickt - ausserdem werden Details und Grundsätze diskutiert und weiter ausgearbeitet. Keine Vorkenntnisse nötig!
-						</li>
-						<li>
-							<span class="font-bold"><a href="https://reallifecafe.ch" target="_blank">Real-Life-Treffen</a> - jeden 2. Freitag 18 - 22 Uhr</span><br>
-							Bist du ein Fan von Japan? Bist du ein Game-Nerd? Magst Animes oder liest Mangas? Möchtest dich gerne mit anderen über alles Mögliche austauschen? Dann bist du hier genau richtig! ヽ(*⌒∇⌒*)ﾉ
 						</li>
 					</ul>
 					<br>
