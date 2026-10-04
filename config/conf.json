@@ -10,6 +10,24 @@
     "routes": [
         {
             "match": {
+                "uri": "/en"
+            },
+            "action": {
+                "return": 301,
+                "location": "/en/"
+            }
+        },
+        {
+            "match": {
+                "uri": [ "/de", "/de/" ]
+            },
+            "action": {
+                "return": 301,
+                "location": "/"
+            }
+        },
+        {
+            "match": {
                 "uri": "*.php"
             },
             "action": {
