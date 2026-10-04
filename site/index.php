@@ -97,7 +97,7 @@ $page = new Page();
 				<h2 class="text-3xl font-bold my-4 neon">So findest du uns</h2>
 				<div class="block lg:flex gap-8">
 					<div class="w-full lg:w-2/3" id="bitwMap"></div>
-					<div class="w-full lg:w-1/3">Ehemalige Zentralwäscherei Zürich<br/><br/>Verein Bitwäscherei<br/>Neue Hard 12<br/>CH-8005 Zürich<br/>+41 44 520 98 37<br/>
+					<div class="w-full lg:w-1/3"><a href="https://zentralwaescherei.space/" target="_blank">Ehemalige Zentralwäscherei Zürich</a><br/><br/>Verein Bitwäscherei<br/>Neue Hard 12<br/>CH-8005 Zürich<br/>+41 44 520 98 37<br/>
 						<div style="font-size:.9em; margin-top:.5rem;">
 							(Zugang zum Hof über das grosse Tor, dann gleich rechts zwischen Haus und Garagen entlang und links durch die Glastür ins Haus, dort dann 3. OG rechts)
 						</div>
@@ -138,7 +138,7 @@ $page = new Page();
 					<!--												<div class="text-3xl">Bitwäscherei-Party</div>-->
 					<!--												<br>-->
 					<!--												<p>-->
-					<!--													Vieles hat sich in den letzten Monaten getan in der Bitwäscherei. Unter anderem sind zwei neue Vereine (Hackteria und UwU-Space) der Bitwäscherei beigetreten. Zeit, dies mit einer Party zu begiessen. Die Party findet am 15. Oktober 2022 ab 15.00 Uhr in der Bitwäscherei, 3. Stock ZWZ, Neue Hard 12, in Zürich statt.-->
+					<!--													Vieles hat sich in den letzten Monaten getan in der Bitwäscherei. Unter anderem sind zwei neue Vereine (Hackteria und UwU-Space) der Bitwäscherei beigetreten. Zeit, dies mit einer Party zu begiessen. Die Party findet am 15. Oktober 2022 ab 15.00 Uhr in der Bitwäscherei, 3. Stock <a href="https://zentralwaescherei.space/" target="_blank">ZWZ</a>, Neue Hard 12, in Zürich statt.-->
 					<!--												</p>-->
 					<!--												<p>-->
 					<!--													Wir beginnen die Party mit einer Kurzvorstellung aller Vereine und allfälliger persönlicher Projekte. Danach beginnt der lockere Teil des Anlasses.-->
