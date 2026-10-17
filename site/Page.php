@@ -4,10 +4,16 @@ class Page {
 	private $db;
 	private $dbfile;
 	private $config = [];
+	public readonly array $t;
 
-	public function __construct() {
-		session_start();
+	public function __construct(public readonly string $lang = 'de') {
 		date_default_timezone_set('Europe/Zurich');
+		// the container image keeps it next to the PHP files, as its config dir is a volume
+		$translations = __DIR__ . '/translations.ini';
+		if (!file_exists($translations)) {
+			$translations = __DIR__ . '/../config/translations.ini';
+		}
+		$this->t = parse_ini_file($translations, true)[$lang];
 
 		$this->dbfile = __DIR__ . "/../config/events.sqlite3";
 		$this->selfcheck();
@@ -26,6 +32,9 @@ class Page {
 		}
 
 		if (!file_exists($this->dbfile)) {
+			if (!is_writable(dirname($this->dbfile))) {
+				throw new Exception(dirname($this->dbfile) . " must be writable to create the events database");
+			}
 			$db = new \PDO("sqlite:" . $this->dbfile);
 			$db->exec("CREATE TABLE IF NOT EXISTS events(
 			   id INTEGER PRIMARY KEY AUTOINCREMENT, 
@@ -39,7 +48,9 @@ class Page {
 		}
 	}
 
+	// only the admin page uses a session, so the public pages set no cookies
 	public function login() {
+		session_start();
 		if (isset($_POST['password'])) {
 			if ($_POST['password'] === $this->config['ADMINPASSWORD']) {
 				$_SESSION['admin'] = "loggedin";
@@ -50,134 +61,133 @@ class Page {
 	}
 
 	public function checkLogin() {
-		return ($_SESSION['admin'] === "loggedin");
+		return ($_SESSION['admin'] ?? null) === 'loggedin';
 	}
 
 	public function getEvents() {
-		return $this->db->query("SELECT * FROM events WHERE `enddate` >= '".date("Y-m-d")."' ORDER BY `id`");
+		$stmt = $this->db->prepare("SELECT * FROM events WHERE `enddate` >= :today ORDER BY `id`");
+		$stmt->execute([':today' => date("Y-m-d")]);
+		return $stmt;
 	}
-	public function getNextEvents($limit = 10, $locale = 'de') {
+
+	public function getNextEvents($limit = 10) {
 		$events = [];
 
-		foreach ($this->db->query("select * from events where enddate >= '" . date("Y-m-d") . " 00:00:01' ORDER BY `startdate` ASC")->fetchAll() as $key => $event) {
-			$newKey = strtotime($event['startdate']) ."-". $key;
-			$events[$newKey] = $event;
-			$startdate = new DateTime($event['startdate'], new DateTimeZone('Europe/Zurich'));
-			$events[$newKey]['startdate'] = IntlDateFormatter::formatObject($startdate, 'eee d MMMM y HH:mm', $locale);
-
-			$enddate = new DateTime($event['enddate'], new DateTimeZone('Europe/Zurich'));
-			$events[$newKey]['enddate'] = IntlDateFormatter::formatObject($enddate, 'eee d MMMM y HH:mm', $locale);
+		$stmt = $this->db->prepare("SELECT * FROM events WHERE `enddate` >= :today ORDER BY `startdate` ASC");
+		$stmt->execute([':today' => date("Y-m-d") . " 00:00:01"]);
+		foreach ($stmt->fetchAll(\PDO::FETCH_ASSOC) as $event) {
+			$event['startdate'] = new DateTimeImmutable($event['startdate']);
+			$event['enddate'] = new DateTimeImmutable($event['enddate']);
+			$events[] = $event;
 		}
 
-		$this->addWeeklyEvents($events, $locale);
-		ksort($events);
+		$this->addWeeklyEvents($events);
 
-		$events = array_chunk($events, $limit);
+		// usort is stable, so events starting at the same time keep their order
+		usort($events, fn($a, $b) => $a['startdate']->getTimestamp() <=> $b['startdate']->getTimestamp());
+		$events = array_slice($events, 0, $limit);
 
-		return $events[0] ?? [];
+		foreach ($events as &$event) {
+			$event['multiday'] = $event['startdate']->format('Y-m-d') !== $event['enddate']->format('Y-m-d');
+			$event['startdate'] = $this->formatDate($event['startdate']);
+			$event['enddate'] = $this->formatDate($event['enddate']);
+		}
+		unset($event);
+
+		return $events;
 	}
 
-	private function addWeeklyEvents(&$events, $locale = 'de') {
+	private function addWeeklyEvents(&$events) {
 		$timestamp = (date('D') == 'Tue' ? strtotime('today') : strtotime('next tuesday'));
-		$events[$timestamp] = [
+		$date = (new DateTimeImmutable())->setTimestamp($timestamp);
+		$events[] = [
 			"title" => "Openlab",
-			"description" => $locale === 'en'
-				? "The open electronics lab with professional guidance and members actively working on ongoing projects. Drop by to exchange ideas with like-minded people, collaborate on projects, or learn how to solder, make things blink, or synthesize sounds."
-				: "Das offenes Elektroniklabor mit fachlicher Leitung, aktive Arbeit der Mitglieder an laufenden Projekten. Komm vorbei um Dich mit Gleichgesinnten auszutauschen, an laufenden Projekte mitzuwirken oder auch um z.B. zu lernen, wie man lötet, etwas zum blinken oder Geräusche machen bringt.",
+			"description" => $this->t['openlab_desc'],
 			"verein" => "SGMK",
-			"startdate" => $this->getDate($timestamp, $locale) . " 20:00",
-			"enddate" => $this->getDate($timestamp, $locale) . " 23:30",
+			"startdate" => $date->setTime(20, 0),
+			"enddate" => $date->setTime(23, 30),
 		];
 
 		$timestamp = (date('D') == 'Wed' ? strtotime('today') : strtotime('next wednesday'));
-		$events[$timestamp] = [
+		$date = (new DateTimeImmutable())->setTimestamp($timestamp);
+		$events[] = [
 			"title" => "ChaosTreff",
-			"description" => $locale === 'en'
-				? "The open meetup of the Chaos Computer Club Zürich, celebrating the joy of tinkering and technology while keeping a keen eye on societal implications. Drop by to learn, explore, or get directly involved in technical and political projects."
-				: "Das offene Treffen des Chaos Computer Club Zürich, bei dem der Spass am Gerät grossgeschrieben wird, ohne aber den gesellschaftlichen Blick zu verlieren. Komm vorbei um verstehen zu lernen, oder aber beteilige Dich direkt an technischen und politischen Projekten.",
+			"description" => $this->t['chaostreff_desc'],
 			"verein" => "CCCZH",
-			"startdate" => $this->getDate($timestamp, $locale) . " 19:00",
-			"enddate" => $this->getDate($timestamp, $locale) . " 22:00",
+			"startdate" => $date->setTime(19, 0),
+			"enddate" => $date->setTime(22, 0),
 		];
 
-		$this->addDigiGesEvents($events, $locale);
-		$this->addLugsEvents($events, $locale);
+		$this->addDigiGesEvents($events);
+		$this->addLugsEvents($events);
 
-		// TODO: RL => zu unregelmässig
 		// TODO: OSM => zu unregelmässig
-
 	}
 
-	private function addDigiGesEvents(&$events, $locale = 'de') {
+	private function addDigiGesEvents(&$events) {
 		$timestamp = (date('D') == 'Thu' ? strtotime('today') : strtotime('next thursday'));
-		$date = new DateTime();
-		$date->setTimestamp($timestamp);
-		$nextEventMonth = IntlDateFormatter::formatObject($date, 'M', 'de');
-		$date->sub(DateInterval::createFromDateString('1 week'));
-		$thirdThursdayInMonth = FALSE;
-		if($nextEventMonth == IntlDateFormatter::formatObject($date, 'M', 'de')) {
-			$date->sub(DateInterval::createFromDateString('1 week'));
-			if($nextEventMonth == IntlDateFormatter::formatObject($date, 'M', 'de')) {
-				$date->sub(DateInterval::createFromDateString('1 week'));
-				if($nextEventMonth != IntlDateFormatter::formatObject($date, 'M', 'de')) {
-					$thirdThursdayInMonth = TRUE;
-				}
-			}
+		$date = (new DateTimeImmutable())->setTimestamp($timestamp);
+
+		// no meetup on the third thursday of the month ("Netzpolitischer Abend")
+		if ((int)ceil($date->format('j') / 7) === 3) {
+			return;
 		}
 
-		if(!$thirdThursdayInMonth) {
-			$events[$timestamp] = [
-				"title" => $locale === 'en' ? "Digital Rights Meetup" : "Netzpolitik-Treff",
-				"description" => $locale === 'en'
-					? "for exchange and further development of the topics, ideas, plans and projects of the Digital Society. Help ensure a sustainable, democratic and free civil society, and defend fundamental rights in a digitally connected world. The meetup does not take place when the \"Netzpolitischer Abend\" event takes place at Zentrum Karl der Grosse (usually the third Thursday of the month)."
-					: "für Austausch und Weiterentwicklung der Themen, Ideen, Plänen und Projekte der Digitalen Gesellschaft. Hilf mit, für eine nachhaltige, demokratische und freie Zivilgesellschaft zu sorgen, und verteidige die Grundrechte in einer digital vernetzten Welt. Der «Netzpolitische Treff» findet jeweils nicht statt, wenn der Event \"Netzpolitischer Abend\" im Zentrum Karl der Grosse stattfindet (üblicherweise am dritten Donnerstag im Monat)",
-				"verein" => "DigiGes",
-				"startdate" => $this->getDate($timestamp, $locale) . " 18:00",
-				"enddate" => $this->getDate($timestamp, $locale) . " 22:00",
-			];
-		}
+		$events[] = [
+			"title" => $this->t['digiges_title'],
+			"description" => $this->t['digiges_desc'],
+			"verein" => "DigiGes",
+			"startdate" => $date->setTime(18, 0),
+			"enddate" => $date->setTime(22, 0),
+		];
 	}
 
-	private function addLugsEvents(&$events, $locale = 'de') {
+	private function addLugsEvents(&$events) {
 		$today = date("Y-m-d");
-		$timestamp = strtotime('2024-02-15 19:15:00');
-		$thursday = new DateTime();
-		$thursday->setTimestamp($timestamp);
+		$thursday = new DateTimeImmutable('2024-02-15 19:15:00');
 		while($thursday->format("Y-m-d") < $today) {
-			$thursday->add(DateInterval::createFromDateString('4 week'));
+			$thursday = $thursday->add(DateInterval::createFromDateString('4 week'));
 		}
 
-		$timestamp = strtotime('2024-03-01 19:15:00');
-		$friday = new DateTime();
-		$friday->setTimestamp($timestamp);
+		$friday = new DateTimeImmutable('2024-03-01 19:15:00');
 		while($friday->format("Y-m-d") < $today) {
-			$friday->add(DateInterval::createFromDateString('4 week'));
+			$friday = $friday->add(DateInterval::createFromDateString('4 week'));
 		}
 
 		$nextEventDay = min($thursday, $friday);
 
-		$events[$nextEventDay->getTimestamp()] = [
-			"title" => $locale === 'en' ? "LUGS Meetup" : "LUGS-Treff",
-			"description" => $locale === 'en'
-				? "Meetups and talks on Linux and Open Source. The personal atmosphere makes it easy to get involved in this worldwide network. Founded in 1994, it is the first association in Switzerland dedicated exclusively to supporting Linux."
-				: "Treffen und Vorträge rund um Linux und Open Source. Durch den persönlichen Charakter wird der Einstieg in dieses weltweite Netzwerk leichter. 1994 gegründet und ist die erste Vereinigung der Schweiz, die sich ausschliesslich zur Aufgabe gemacht hat, Linux zu unterstützen.",
+		$events[] = [
+			"title" => $this->t['lugs_title'],
+			"description" => $this->t['lugs_desc'],
 			"verein" => "LUGS",
-			"startdate" => IntlDateFormatter::formatObject($nextEventDay, 'eee d MMMM y', $locale) . " 19:15",
-			"enddate" => IntlDateFormatter::formatObject($nextEventDay, 'eee d MMMM y', $locale) . " 20:45",
+			"startdate" => $nextEventDay->setTime(19, 15),
+			"enddate" => $nextEventDay->setTime(20, 45),
 		];
 	}
 
-	private function getDate($timestamp, $locale = 'de') {
-		$date = new DateTime();
-		$date->setTimestamp($timestamp);
-		return IntlDateFormatter::formatObject($date, 'eee d MMMM y', $locale);
+	private const WEEKDAYS = [
+		'de' => [1 => 'Mo.', 'Di.', 'Mi.', 'Do.', 'Fr.', 'Sa.', 'So.'],
+		'en' => [1 => 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+	];
+
+	private const MONTHS = [
+		'de' => [1 => 'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+		'en' => [1 => 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+	];
+
+	// e.g. "Mo. 5. Januar 2026 19:00 Uhr" or "Mon 5 January 2026 19:00"
+	private function formatDate(DateTimeInterface $date): string {
+		return self::WEEKDAYS[$this->lang][(int)$date->format('N')] . ' '
+			. $date->format('j') . ($this->lang === 'de' ? '. ' : ' ')
+			. self::MONTHS[$this->lang][(int)$date->format('n')] . ' '
+			. $date->format('Y H:i') . $this->t['time_suffix'];
 	}
 
 	public function saveEvents() {
 		$this->db->exec("delete from events");
 		$sql = 'INSERT INTO events(title,startdate,enddate,description,verein) ' . 'VALUES(:title,:startdate,:enddate,:description,:verein)';
 		$stmt = $this->db->prepare($sql);
-		for ($i = 0; $i <= count($_POST['title']); $i++) {
+		for ($i = 0; $i < count($_POST['title']); $i++) {
 			if(empty($_POST['title'][$i])) continue;
 			$stmt->execute([
 				':title' => htmlspecialchars(strip_tags($_POST['title'][$i])),

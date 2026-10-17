@@ -1,10 +1,10 @@
-name: Deploy multi-architecture Docker images with buildx
+name: Build, verify and deploy multi-architecture container images
 
 on:
   pull_request:
     branches: master
   push:
-    branches: master
+    branches: '**'
     tags: '*'
 
 jobs:
@@ -17,26 +17,38 @@ jobs:
         uses: actions/checkout@v7
       - name: Prepare
         id: prepare
-        run: echo "version=${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
+        run: echo "version=${GITHUB_REF##*/}" >> "$GITHUB_OUTPUT"
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v4
         with:
           platforms: linux/arm64
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
+      - name: Build container image for verification
+        uses: docker/build-push-action@v7
+        with:
+          build-args: VERSION=${{ steps.prepare.outputs.version }}
+          file: config/Containerfile
+          load: true
+          tags: bitwaescherei:verify
+      - name: Verify container image
+        run: .github/verify.sh
+        env:
+          ENGINE: docker
+          IMAGE: bitwaescherei:verify
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v4
-        if: success() && github.event_name != 'pull_request' && github.ref != 'refs/heads/master'
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ github.token }}
+      # reuses the verified amd64 layers from the buildx cache, only arm64 gets built here
       - name: Build and push container image
         uses: docker/build-push-action@v7
-        if: success()
         with:
           build-args: VERSION=${{ steps.prepare.outputs.version }}
           file: config/Containerfile
           platforms: linux/amd64,linux/arm64
-          push: ${{ github.event_name != 'pull_request' && github.ref != 'refs/heads/master' }}
+          push: ${{ startsWith(github.ref, 'refs/tags/') }}
           tags: ghcr.io/bitwaescherei/bitwaescherei:${{ steps.prepare.outputs.version }}

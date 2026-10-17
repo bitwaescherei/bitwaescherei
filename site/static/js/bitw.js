@@ -51,6 +51,15 @@ modals.forEach(function (trigger) {
 	});
 });
 
+// the home pages are static, the next events get loaded from PHP
+const events = document.getElementById('events');
+if (events) {
+	fetch(events.dataset.src)
+		.then(function (response) { return response.ok ? response.text() : Promise.reject(response.status); })
+		.then(function (html) { events.innerHTML = html; })
+		.catch(function (error) { console.error('loading events failed:', error); });
+}
+
 document.addEventListener('DOMContentLoaded', function () {
 	var lightbox = new SimpleLightbox('#gallery a', { /* options */});
 });

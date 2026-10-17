@@ -1,8 +1,21 @@
+# Stage 1: render the static German and English home pages
+FROM alpine:3.24 AS pages
+
+RUN apk add --no-cache php85
+WORKDIR /build
+COPY site/index.php site/
+COPY config/translations.ini config/
+RUN mkdir -p public/en && \
+    php85 -d display_errors=stderr site/index.php de > public/index.html && \
+    php85 -d display_errors=stderr site/index.php en > public/en/index.html
+
+# Stage 2: runtime
 FROM alpine:3.24
 
 # user nginx, group www-data
 ARG UID=100
 ARG GID=82
+ARG VERSION
 
 LABEL org.opencontainers.image.authors="Bitwäscherei" \
       org.opencontainers.image.source=https://github.com/bitwaescherei/bitwaescherei \
@@ -12,24 +25,26 @@ RUN \
 # Install dependencies
     apk add --upgrade --no-cache \
         freeunit-php85 \
-        php85-intl \
         php85-pdo_sqlite \
         php85-session \
-        tzdata \
     && \
-# Create working directory
-    mkdir -p /var/www/public && \
+# Create the writable config & database directory
+    mkdir -p /var/www/config && \
 # Support running unit under a non-root user
-    chown -R ${UID}:${GID} /run /var/www /var/lib/unit
+    chown -R ${UID}:${GID} /run /var/www/config /var/lib/unit
 
 COPY --chown=${UID}:${GID} config/conf.json /var/lib/unit/
-COPY --chown=${UID}:${GID} site /var/www/public
+# Static files are served by unit, PHP only runs via the routes in conf.json.
+# Both stay owned by root, so the PHP processes can't modify them.
+COPY --from=pages /build/public /var/www/public
+COPY site/static /var/www/public/static
+COPY site/Page.php site/admin.php site/events.php site/event-cards.php config/translations.ini /var/www/php/
 
 USER ${UID}:${GID}
 EXPOSE 8080/tcp
-VOLUME /run /tmp /var/lib/unit
+VOLUME /run /tmp /var/lib/unit /var/www/config
 WORKDIR /var/www
 
-HEALTHCHECK CMD ["wget", "-qO/dev/null", "http://localhost:8080"]
+HEALTHCHECK CMD ["wget", "-qO/dev/null", "http://localhost:8080/event-cards.php"]
 ENTRYPOINT ["/usr/sbin/unitd"]
 CMD ["--no-daemon", "--log", "/dev/stdout", "--tmpdir", "/tmp"]
