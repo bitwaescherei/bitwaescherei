@@ -2,3 +2,4 @@
 config/.env
 config/events.sqlite3
 vendor/*
+verify.log

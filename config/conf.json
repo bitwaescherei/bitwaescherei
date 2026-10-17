@@ -28,30 +28,60 @@
         },
         {
             "match": {
-                "uri": "*.php"
+                "uri": "/index.php"
             },
             "action": {
-                "pass": "applications/php"
+                "return": 301,
+                "location": "/"
             }
         },
         {
             "match": {
-                "uri": "~[^/]+$"
+                "uri": "/events.php"
             },
             "action": {
-                "share": "/var/www/public${uri}"
+                "pass": "applications/php/events"
+            }
+        },
+        {
+            "match": {
+                "uri": "/event-cards.php"
+            },
+            "action": {
+                "pass": "applications/php/event-cards"
+            }
+        },
+        {
+            "match": {
+                "uri": "/admin.php"
+            },
+            "action": {
+                "pass": "applications/php/admin"
             }
         },
         {
             "action": {
-                "pass": "applications/php"
+                "share": "/var/www/public${uri}"
             }
         }
     ],
     "applications": {
         "php": {
             "type": "php",
-            "root": "/var/www/public/",
+            "targets": {
+                "events": {
+                    "root": "/var/www/php/",
+                    "script": "events.php"
+                },
+                "event-cards": {
+                    "root": "/var/www/php/",
+                    "script": "event-cards.php"
+                },
+                "admin": {
+                    "root": "/var/www/php/",
+                    "script": "admin.php"
+                }
+            },
             "options": {
                 "file": "/etc/php85/php.ini",
                 "admin": {
