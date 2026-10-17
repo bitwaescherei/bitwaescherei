@@ -10,6 +10,14 @@ $page = new Page();
 	<title>Bitwäscherei - Hackerspace in Zürich (Hardbrücke)</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Bitwäscherei - Hackerspace-Kollektiv in Zürich (Hardbrücke). Ein Zusammenschluss von CCCZH, SGMK, DigiGes, LUGS, Hackteria und UwU-Space.">
+	<meta property="og:title" content="Bitwäscherei - Hackerspace in Zürich (Hardbrücke)">
+	<meta property="og:description" content="Hackerspace-Kollektiv im Herzen von Zürich. Gemeinschaft von CCCZH, SGMK, DigiGes, LUGS, Hackteria und UwU-Space.">
+	<meta property="og:image" content="/static/img/BW-Logo-2022.png">
+	<meta property="og:url" content="https://bitwaescherei.ch/">
+	<meta property="og:type" content="website">
+	<link rel="icon" type="image/svg+xml" href="/static/img/bw-logo-2022.svg">
+	<link rel="alternate icon" type="image/png" href="/static/img/BW-Logo-2022.png">
 	<script src="/static/js/tailwind.js"></script>
 	<!-- OpenLayers https://openlayers.org/download/ -->
 	<link rel="stylesheet" href="/static/css/ol.css">
@@ -22,6 +30,13 @@ $page = new Page();
 
 <div class="relative z-10">
 	<header class="page">
+		<div class="flex justify-end mb-4">
+			<div class="inline-flex items-center gap-2 bg-gradient-to-r from-purple-900/80 to-blue-900/80 border border-teal-400/50 rounded-full px-3 py-1 text-sm font-semibold shadow">
+				<span class="text-teal-300">DE</span>
+				<span class="text-gray-500">|</span>
+				<a href="/en/" class="text-gray-400 hover:text-teal-300 transition-colors" title="Switch to English">EN</a>
+			</div>
+		</div>
 		<div class="block lg:flex lg:m-4">
 			<div class="w-full lg:w-1/3">
 				<a href="/" title="Bitwäscherei" class="hover:animate-pulse">
@@ -61,32 +76,32 @@ $page = new Page();
 				</div>
 			</a>
 			<div class="my-8 text-center align-content-center grid grid-cols-1 lg:grid-cols-3 gap-2">
-				<a href="https://www.ccczh.ch/" target="_blank" class="transition bg-gradient-to-bl from-blue-800 to-purple-800 brightness-100 hover:brightness-50 ring-1 ring-purple-400 rounded p-2">
+				<a href="https://www.ccczh.ch/" target="_blank" rel="noopener noreferrer" class="transition bg-gradient-to-bl from-blue-800 to-purple-800 brightness-100 hover:brightness-50 ring-1 ring-purple-400 rounded p-2">
 					<div class="font-weight-bold pt-1">Chaos Computer Club Zürich (CCCZH)</div>
 					<br>
 					<img src="/static/img/logos/ccczh.png" class="m-auto" style="height:80px;">
 				</a>
-				<a href="https://www.lugs.ch/lugs/" target="_blank" class="transition bg-gradient-to-bl from-blue-800 to-purple-800 brightness-100 hover:brightness-50 ring-1 ring-purple-400 rounded p-2">
+				<a href="https://www.lugs.ch/lugs/" target="_blank" rel="noopener noreferrer" class="transition bg-gradient-to-bl from-blue-800 to-purple-800 brightness-100 hover:brightness-50 ring-1 ring-purple-400 rounded p-2">
 					<div class="font-weight-bold pt-1">Linux User Group Switzerland (LUGS)</div>
 					<br>
 					<img src="/static/img/logos/lugs.gif" class="m-auto" style="height:80px;">
 				</a>
-				<a href="https://sgmk-ssam.ch/" target="_blank" class="transition bg-gradient-to-bl from-blue-800 to-purple-800 brightness-100 hover:brightness-50 ring-1 ring-purple-400 rounded p-2">
+				<a href="https://sgmk-ssam.ch/" target="_blank" rel="noopener noreferrer" class="transition bg-gradient-to-bl from-blue-800 to-purple-800 brightness-100 hover:brightness-50 ring-1 ring-purple-400 rounded p-2">
 					<div class="font-weight-bold pt-1">SGMK - MechArtLab</div>
 					<br>
 					<img src="/static/img/logos/sgmk.png" class="m-auto" style="height:80px;">
 				</a>
-				<a href="https://www.digitale-gesellschaft.ch/" target="_blank" class="transition bg-gradient-to-bl from-blue-800 to-purple-800 brightness-100 hover:brightness-50 ring-1 ring-purple-400 rounded p-2">
+				<a href="https://www.digitale-gesellschaft.ch/" target="_blank" rel="noopener noreferrer" class="transition bg-gradient-to-bl from-blue-800 to-purple-800 brightness-100 hover:brightness-50 ring-1 ring-purple-400 rounded p-2">
 					<div class="font-weight-bold pt-1">Digitale Gesellschaft</div>
 					<br>
 					<img src="/static/img/logos/digiges.png" class="m-auto" style="height:80px;">
 				</a>
-				<a href="https://www.hackteria.org/" target="_blank" class="transition bg-gradient-to-bl from-blue-800 to-purple-800 brightness-100 hover:brightness-50 ring-1 ring-purple-400 rounded p-2">
+				<a href="https://www.hackteria.org/" target="_blank" rel="noopener noreferrer" class="transition bg-gradient-to-bl from-blue-800 to-purple-800 brightness-100 hover:brightness-50 ring-1 ring-purple-400 rounded p-2">
 					<div class="font-weight-bold pt-1">Hackteria - Open Science Lab</div>
 					<br>
 					<img src="/static/img/logos/hackteria.png" class="m-auto" style="height:80px;">
 				</a>
-				<a href="https://uwu-space.ch/" target="_blank" class="transition bg-gradient-to-bl from-blue-800 to-purple-800 brightness-100 hover:brightness-50 ring-1 ring-purple-400 rounded p-2">
+				<a href="https://uwu-space.ch/" target="_blank" rel="noopener noreferrer" class="transition bg-gradient-to-bl from-blue-800 to-purple-800 brightness-100 hover:brightness-50 ring-1 ring-purple-400 rounded p-2">
 					<div class="font-weight-bold pt-1">UwU-Space</div>
 					<br>
 					<img src="/static/img/logos/uwu-space-logo.png" class="m-auto" style="height:80px;">
@@ -97,7 +112,7 @@ $page = new Page();
 				<h2 class="text-3xl font-bold my-4 neon">So findest du uns</h2>
 				<div class="block lg:flex gap-8">
 					<div class="w-full lg:w-2/3" id="bitwMap"></div>
-					<div class="w-full lg:w-1/3"><a href="https://zentralwaescherei.space/" target="_blank">Ehemalige Zentralwäscherei Zürich</a><br/><br/>Verein Bitwäscherei<br/>Neue Hard 12<br/>CH-8005 Zürich<br/>+41 44 520 98 37<br/>
+					<div class="w-full lg:w-1/3"><a href="https://zentralwaescherei.space/" target="_blank" rel="noopener noreferrer">Ehemalige Zentralwäscherei Zürich</a><br/><br/>Verein Bitwäscherei<br/>Neue Hard 12<br/>CH-8005 Zürich<br/>+41 44 520 98 37<br/>
 						<div style="font-size:.9em; margin-top:.5rem;">
 							(Zugang zum Hof über das grosse Tor, dann gleich rechts zwischen Haus und Garagen entlang und links durch die Glastür ins Haus, dort dann 3. OG rechts)
 						</div>
@@ -138,7 +153,7 @@ $page = new Page();
 					<!--												<div class="text-3xl">Bitwäscherei-Party</div>-->
 					<!--												<br>-->
 					<!--												<p>-->
-					<!--													Vieles hat sich in den letzten Monaten getan in der Bitwäscherei. Unter anderem sind zwei neue Vereine (Hackteria und UwU-Space) der Bitwäscherei beigetreten. Zeit, dies mit einer Party zu begiessen. Die Party findet am 15. Oktober 2022 ab 15.00 Uhr in der Bitwäscherei, 3. Stock <a href="https://zentralwaescherei.space/" target="_blank">ZWZ</a>, Neue Hard 12, in Zürich statt.-->
+					<!--													Vieles hat sich in den letzten Monaten getan in der Bitwäscherei. Unter anderem sind zwei neue Vereine (Hackteria und UwU-Space) der Bitwäscherei beigetreten. Zeit, dies mit einer Party zu begiessen. Die Party findet am 15. Oktober 2022 ab 15.00 Uhr in der Bitwäscherei, 3. Stock <a href="https://zentralwaescherei.space/" target="_blank" rel="noopener noreferrer">ZWZ</a>, Neue Hard 12, in Zürich statt.-->
 					<!--												</p>-->
 					<!--												<p>-->
 					<!--													Wir beginnen die Party mit einer Kurzvorstellung aller Vereine und allfälliger persönlicher Projekte. Danach beginnt der lockere Teil des Anlasses.-->
@@ -148,19 +163,19 @@ $page = new Page();
 					<!--											</div>-->
 					<!--										</div>-->
 					<ul class="event_overview">
-						<li><span class="font-bold"><a href="https://mechatronicart.ch/mechartlab/" target="_blank">OpenLab</a> - jeden Dienstag ab 20 Uhr</span><br>
+						<li><span class="font-bold"><a href="https://mechatronicart.ch/mechartlab/" target="_blank" rel="noopener noreferrer">OpenLab</a> - jeden Dienstag ab 20 Uhr</span><br>
 							Das offenes Elektroniklabor mit fachlicher Leitung, aktive Arbeit der Mitglieder an laufenden Projekten. Komm vorbei um Dich mit Gleichgesinnten auszutauschen, an laufenden Projekte mitzuwirken oder auch um z.B. zu lernen, wie man lötet, etwas zum blinken oder Geräusche machen bringt.
 						</li>
-						<li><span class="font-bold"><a href="https://www.ccczh.ch/" target="_blank">ChaosTreff</a> - jeden Mittwoch&nbsp;ab 19 Uhr</span><br>
+						<li><span class="font-bold"><a href="https://www.ccczh.ch/" target="_blank" rel="noopener noreferrer">ChaosTreff</a> - jeden Mittwoch&nbsp;ab 19 Uhr</span><br>
 							Das offene Treffen des Chaos Computer Club Zürich, bei dem der Spass am Gerät grossgeschrieben wird, ohne aber den gesellschaftlichen Blick zu verlieren. Komm vorbei um verstehen zu lernen, oder aber beteilige Dich direkt an technischen und politischen Projekten.
 						</li>
-						<li><span class="font-bold"><a href="https://uwu-space.ch" target="_blank">UwU-Space</a> - jeden Mittwoch&nbsp;ab 19 Uhr</span><br>
+						<li><span class="font-bold"><a href="https://uwu-space.ch" target="_blank" rel="noopener noreferrer">UwU-Space</a> - jeden Mittwoch&nbsp;ab 19 Uhr</span><br>
 							We are a Queer Hackspace centered around Zürich. We welcome all autistic sciencing around, from tech to trains and even chemistry. We are primarily English-speaking.
 						</li>
-						<li><span class="font-bold"><a href="https://www.lugs.ch/lugs/" target="_blank">Treff der Linux User Group Schweiz</a> - jede zweite Woche iternierend <a href="https://www.lugs.ch/lugs/termine/" target="_blank">Donnerstags oder Freitags</a> von 19 bis 21 Uhr</span><br>
+						<li><span class="font-bold"><a href="https://www.lugs.ch/lugs/" target="_blank" rel="noopener noreferrer">Treff der Linux User Group Schweiz</a> - jede zweite Woche alternierend <a href="https://www.lugs.ch/lugs/termine/" target="_blank" rel="noopener noreferrer">Donnerstags oder Freitags</a> von 19 bis 21 Uhr</span><br>
 							Treffen und Vorträge rund um Linux und Open Source.&nbsp;Durch&nbsp;den persönlichen Charakter wird der Einstieg in dieses weltweite Netzwerk leichter. 1994 gegründet und ist die erste Vereinigung der Schweiz, die sich ausschliesslich zur Aufgabe gemacht hat, Linux zu unterstützen.
 						</li>
-						<li><span class="font-bold"><a href="https://www.digitale-gesellschaft.ch/" target="_blank">Digitale Gesellschaft</a> - Jeweils Donnerstags ab 18 Uhr der «Netzpolitik-Treff»</span><br>
+						<li><span class="font-bold"><a href="https://www.digitale-gesellschaft.ch/" target="_blank" rel="noopener noreferrer">Digitale Gesellschaft</a> - Jeweils Donnerstags ab 18 Uhr der «Netzpolitik-Treff»</span><br>
 							für Austausch
 							und Weiterentwicklung der Themen, Ideen, Plänen und Projekte der
 							Digitalen Gesellschaft. Hilf mit, für eine nachhaltige, demokratische
@@ -170,8 +185,8 @@ $page = new Page();
 							Grosse stattfindet (üblicherweise am dritten Donnerstag im Monat)
 						</li>
 						<li>
-							<span class="font-bold"><a href="https://openstreetmap.org" target="_blank">Open Street Map</a> - Stammtisch jeweils am 11. des Monats ab 18:30 Uhr</span><br>
-							Beim <a href="https://wiki.openstreetmap.org/wiki/DE:Switzerland:Z%C3%BCrich/OSM-Treffen">Zürcher Stammtisch der OpenStreetMapper/innen</a> wird aktiv an Open Street Map weitergearbeitet, überarbeitet, überprüft und überblickt - ausserdem werden Details und Grundsätze diskutiert und weiter ausgearbeitet. Keine Vorkenntnisse nötig!
+							<span class="font-bold"><a href="https://openstreetmap.org" target="_blank" rel="noopener noreferrer">Open Street Map</a> - Stammtisch jeweils am 11. des Monats ab 18:30 Uhr</span><br>
+							Beim <a href="https://wiki.openstreetmap.org/wiki/DE:Switzerland:Z%C3%BCrich/OSM-Treffen" target="_blank" rel="noopener noreferrer">Zürcher Stammtisch der OpenStreetMapper/innen</a> wird aktiv an Open Street Map weitergearbeitet, überarbeitet, überprüft und überblickt - ausserdem werden Details und Grundsätze diskutiert und weiter ausgearbeitet. Keine Vorkenntnisse nötig!
 						</li>
 					</ul>
 					<br>
@@ -181,7 +196,7 @@ $page = new Page();
 						</li>
 						<li>Daneben laufen immer wieder andere Veranstaltungen, Anlässe und Workshops unterschiedlicher Art, sofern sie nicht von einem Virus boykottiert werden ;)
 						</li>
-						<li>Zum Beispiel von der <a href="https://www.digitale-gesellschaft.ch/" target="_blank">Digitalen Gesellschaft</a>: öffentliche Workshops/Talks zu Digitalem Aikido (4xJahr) u.ä.; Frühlings- &amp; Herbsttreffen (ganztags, 25-30 Personen &amp; Essen), Vorstandssitzungen &amp; sonstige Besprechungen, Büronutzung ganztags, täglich
+						<li>Zum Beispiel von der <a href="https://www.digitale-gesellschaft.ch/" target="_blank" rel="noopener noreferrer">Digitalen Gesellschaft</a>: öffentliche Workshops/Talks zu Digitalem Aikido (4xJahr) u.ä.; Frühlings- &amp; Herbsttreffen (ganztags, 25-30 Personen &amp; Essen), Vorstandssitzungen &amp; sonstige Besprechungen, Büronutzung ganztags, täglich
 						</li>
 					</ul>
 				</div>
@@ -195,7 +210,7 @@ $page = new Page();
 							<p class="my-4">
 								Als Messenger benutzen wir zunehmend einen Matrix-Server, wo du selbst einen Account eröffnen kannst. Es gibt verschiedene öffentliche Räume. Für nicht-öffentliche Räume wende dich bitte an den jeweiligen Verein. Um die Bitwäscherei im allgemeinen zu erreichen dient der Raum #bw-general:chab.is
 							</p>
-							<a class="inline-block px-6 py-2 border-2 border-teal-400  font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out" href="https://plauder.chab.is" target="_blank">plauder.chab.is</a>
+							<a class="inline-block px-6 py-2 border-2 border-teal-400  font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out" href="https://plauder.chab.is" target="_blank" rel="noopener noreferrer">plauder.chab.is</a>
 						</div>
 					</div>
 					<div class="bg-gradient-to-br from-blue-800 to-purple-800 my-6">
@@ -204,14 +219,14 @@ $page = new Page();
 							<p class="my-4">
 								Du möchtest an einer Veranstaltung teilnehmen, kannst aber nicht vor Ort sein? Schaue einfach digital über workadventu.re rein und kommunizieren im Voice-/Video-Chat mit anderen.
 							</p>
-							<a class="inline-block px-6 py-2 border-2 border-teal-400 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out" href="https://lab.mechatronicart.ch/" target="_blank">lab.mechatronicart.ch</a>
+							<a class="inline-block px-6 py-2 border-2 border-teal-400 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out" href="https://lab.mechatronicart.ch/" target="_blank" rel="noopener noreferrer">lab.mechatronicart.ch</a>
 						</div>
 					</div>
 					<div class="bg-gradient-to-br from-blue-800 to-purple-800 my-6">
 						<div class="p-4">
 							<div class="text-2xl text-teal-200">Wiki</div>
 							<p>Möchtest du Informationen über die Bitwäscherei haben oder dich aktiv einbringen? Dann kannst du dich als Mitglied eines Vereins registrieren und deinen Account freischalten lassen.</p>
-							<a class="inline-block px-6 py-2 border-2 border-teal-400 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out" href="https://wiki.digitale-gesellschaft.ch/" target="_blank">zum Wiki</a>
+							<a class="inline-block px-6 py-2 border-2 border-teal-400 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out" href="https://wiki.digitale-gesellschaft.ch/" target="_blank" rel="noopener noreferrer">zum Wiki</a>
 						</div>
 					</div>
 					<div class="bg-gradient-to-br from-blue-800 to-purple-800 my-6">
@@ -235,163 +250,163 @@ $page = new Page();
 				<div class="flex flex-wrap -m-1 md:-m-2" id="gallery">
 					<div class="flex flex-wrap w-1/2 lg:w-1/4">
 						<a href="/static/img/gallery/028.jpg" class="w-full h-64 p-1 md:p-2">
-							<img alt="gallery" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
+							<img alt="Impressionen aus der Bitwäscherei" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
 								 src="/static/img/gallery/small/028.jpg">
 						</a>
 					</div>
 					<div class="flex flex-wrap w-1/2 lg:w-1/4">
 						<a href="/static/img/gallery/027.jpg" class="w-full h-64 p-1 md:p-2">
-							<img alt="gallery" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
+							<img alt="Impressionen aus der Bitwäscherei" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
 								 src="/static/img/gallery/small/027.jpg">
 						</a>
 					</div>
 					<div class="flex flex-wrap w-1/2 lg:w-1/4">
 						<a href="/static/img/gallery/026.jpg" class="w-full h-64 p-1 md:p-2">
-							<img alt="gallery" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
+							<img alt="Impressionen aus der Bitwäscherei" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
 								 src="/static/img/gallery/small/026.jpg">
 						</a>
 					</div>
 					<div class="flex flex-wrap w-1/2 lg:w-1/4">
 						<a href="/static/img/gallery/025.jpg" class="w-full h-64 p-1 md:p-2">
-							<img alt="gallery" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
+							<img alt="Impressionen aus der Bitwäscherei" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
 								 src="/static/img/gallery/small/025.jpg">
 						</a>
 					</div>
 					<div class="flex flex-wrap w-1/2 lg:w-1/4">
 						<a href="/static/img/gallery/024.jpg" class="w-full h-64 p-1 md:p-2">
-							<img alt="gallery" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
+							<img alt="Impressionen aus der Bitwäscherei" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
 								 src="/static/img/gallery/small/024.jpg">
 						</a>
 					</div>
 					<div class="flex flex-wrap w-1/2 lg:w-1/4">
 						<a href="/static/img/gallery/017.jpg" class="w-full h-64 p-1 md:p-2">
-							<img alt="gallery" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
+							<img alt="Impressionen aus der Bitwäscherei" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
 								 src="/static/img/gallery/small/017.jpg">
 						</a>
 					</div>
 					<div class="flex flex-wrap w-1/2 lg:w-1/4">
 						<a href="/static/img/gallery/018.jpg" class="w-full h-64 p-1 md:p-2">
-							<img alt="gallery" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
+							<img alt="Impressionen aus der Bitwäscherei" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
 								 src="/static/img/gallery/small/018.jpg">
 						</a>
 					</div>
 					<div class="flex flex-wrap w-1/2 lg:w-1/4">
 						<a href="/static/img/gallery/019.jpg" class="w-full h-64 p-1 md:p-2">
-							<img alt="gallery" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
+							<img alt="Impressionen aus der Bitwäscherei" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
 								 src="/static/img/gallery/small/019.jpg">
 						</a>
 					</div>
 					<div class="flex flex-wrap w-1/2 lg:w-1/4">
 						<a href="/static/img/gallery/020.jpg" class="w-full h-64 p-1 md:p-2">
-							<img alt="gallery" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
+							<img alt="Impressionen aus der Bitwäscherei" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
 								 src="/static/img/gallery/small/020.jpg">
 						</a>
 					</div>
 					<div class="flex flex-wrap w-1/2 lg:w-1/4">
 						<a href="/static/img/gallery/021.jpg" class="w-full h-64 p-1 md:p-2">
-							<img alt="gallery" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
+							<img alt="Impressionen aus der Bitwäscherei" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
 								 src="/static/img/gallery/small/021.jpg">
 						</a>
 					</div>
 					<div class="flex flex-wrap w-1/2 lg:w-1/4">
 						<a href="/static/img/gallery/022.jpg" class="w-full h-64 p-1 md:p-2">
-							<img alt="gallery" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
+							<img alt="Impressionen aus der Bitwäscherei" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
 								 src="/static/img/gallery/small/022.jpg">
 						</a>
 					</div>
 					<div class="flex flex-wrap w-1/2 lg:w-1/4">
 						<a href="/static/img/gallery/023.jpg" class="w-full h-64 p-1 md:p-2">
-							<img alt="gallery" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
+							<img alt="Impressionen aus der Bitwäscherei" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
 								 src="/static/img/gallery/small/023.jpg">
 						</a>
 					</div>
 					<div class="flex flex-wrap w-1/2 lg:w-1/4">
 						<a href="/static/img/gallery/001.jpg" class="w-full h-64 p-1 md:p-2">
-							<img alt="gallery" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
+							<img alt="Impressionen aus der Bitwäscherei" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
 								 src="/static/img/gallery/small/001.jpg">
 						</a>
 					</div>
 					<div class="flex flex-wrap w-1/2 lg:w-1/4">
 						<a href="/static/img/gallery/003.jpg" class="w-full h-64 p-1 md:p-2">
-							<img alt="gallery" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
+							<img alt="Impressionen aus der Bitwäscherei" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
 								 src="/static/img/gallery/small/003.jpg">
 						</a>
 					</div>
 					<div class="flex flex-wrap w-1/2 lg:w-1/4">
 						<a href="/static/img/gallery/004.jpg" class="w-full h-64 p-1 md:p-2">
-							<img alt="gallery" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
+							<img alt="Impressionen aus der Bitwäscherei" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
 								 src="/static/img/gallery/small/004.jpg">
 						</a>
 					</div>
 					<div class="flex flex-wrap w-1/2 lg:w-1/4">
 						<a href="/static/img/gallery/005.jpg" class="w-full h-64 p-1 md:p-2">
-							<img alt="gallery" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
+							<img alt="Impressionen aus der Bitwäscherei" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
 								 src="/static/img/gallery/small/005.jpg">
 						</a>
 					</div>
 					<div class="flex flex-wrap w-1/2 lg:w-1/4">
 						<a href="/static/img/gallery/006.jpg" class="w-full h-64 p-1 md:p-2">
-							<img alt="gallery" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
+							<img alt="Impressionen aus der Bitwäscherei" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
 								 src="/static/img/gallery/small/006.jpg">
 						</a>
 					</div>
 					<div class="flex flex-wrap w-1/2 lg:w-1/4">
 						<a href="/static/img/gallery/007.jpg" class="w-full h-64 p-1 md:p-2">
-							<img alt="gallery" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
+							<img alt="Impressionen aus der Bitwäscherei" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
 								 src="/static/img/gallery/small/007.jpg">
 						</a>
 					</div>
 					<div class="flex flex-wrap w-1/2 lg:w-1/4">
 						<a href="/static/img/gallery/008.jpg" class="w-full h-64 p-1 md:p-2">
-							<img alt="gallery" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
+							<img alt="Impressionen aus der Bitwäscherei" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
 								 src="/static/img/gallery/small/008.jpg">
 						</a>
 					</div>
 					<div class="flex flex-wrap w-1/2 lg:w-1/4">
 						<a href="/static/img/gallery/009.jpg" class="w-full h-64 p-1 md:p-2">
-							<img alt="gallery" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
+							<img alt="Impressionen aus der Bitwäscherei" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
 								 src="/static/img/gallery/small/009.jpg">
 						</a>
 					</div>
 					<div class="flex flex-wrap w-1/2 lg:w-1/4">
 						<a href="/static/img/gallery/010.jpg" class="w-full h-64 p-1 md:p-2">
-							<img alt="gallery" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
+							<img alt="Impressionen aus der Bitwäscherei" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
 								 src="/static/img/gallery/small/010.jpg">
 						</a>
 					</div>
 					<div class="flex flex-wrap w-1/2 lg:w-1/4">
 						<a href="/static/img/gallery/011.jpg" class="w-full h-64 p-1 md:p-2">
-							<img alt="gallery" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
+							<img alt="Impressionen aus der Bitwäscherei" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
 								 src="/static/img/gallery/small/011.jpg">
 						</a>
 					</div>
 					<div class="flex flex-wrap w-1/2 lg:w-1/4">
 						<a href="/static/img/gallery/012.jpg" class="w-full h-64 p-1 md:p-2">
-							<img alt="gallery" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
+							<img alt="Impressionen aus der Bitwäscherei" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
 								 src="/static/img/gallery/small/012.jpg">
 						</a>
 					</div>
 					<div class="flex flex-wrap w-1/2 lg:w-1/4">
 						<a href="/static/img/gallery/013.jpg" class="w-full h-64 p-1 md:p-2">
-							<img alt="gallery" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
+							<img alt="Impressionen aus der Bitwäscherei" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
 								 src="/static/img/gallery/small/013.jpg">
 						</a>
 					</div>
 					<div class="flex flex-wrap w-1/2 lg:w-1/4">
 						<a href="/static/img/gallery/014.jpg" class="w-full h-64 p-1 md:p-2">
-							<img alt="gallery" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
+							<img alt="Impressionen aus der Bitwäscherei" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
 								 src="/static/img/gallery/small/014.jpg">
 						</a>
 					</div>
 					<div class="flex flex-wrap w-1/2 lg:w-1/4">
 						<a href="/static/img/gallery/015.jpg" class="w-full h-64 p-1 md:p-2">
-							<img alt="gallery" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
+							<img alt="Impressionen aus der Bitwäscherei" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
 								 src="/static/img/gallery/small/015.jpg">
 						</a>
 					</div>
 					<div class="flex flex-wrap w-1/2 lg:w-1/4">
 						<a href="/static/img/gallery/016.jpg" class="w-full h-64 p-1 md:p-2">
-							<img alt="gallery" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
+							<img alt="Impressionen aus der Bitwäscherei" class="hover:brightness-50 transition block object-cover object-center w-full h-full rounded"
 								 src="/static/img/gallery/small/016.jpg">
 						</a>
 					</div>
@@ -519,7 +534,7 @@ $page = new Page();
 					<a data-modal="modal-one" style="cursor:pointer">Impressum &amp; Datenschutz</a>
 				</div>
 				<div class="w-1/3 text-right">
-					<a href="https://github.com/bitwaescherei/bitwaescherei" target="_blank">
+					<a href="https://github.com/bitwaescherei/bitwaescherei" target="_blank" rel="noopener noreferrer">
 						Fork on Github:
 						<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
 							 width="30" height="30"

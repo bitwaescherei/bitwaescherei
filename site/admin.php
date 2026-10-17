@@ -69,9 +69,10 @@ $page = new Page();
 											<option>- bitte wählen -</option>
 											<option value="ccc">CCC</option>
 											<option value="digiges">DigiGes</option>
+											<option value="hackteria">Hackteria</option>
 											<option value="lugs">LUGS</option>
-											<option value="rl">RL</option>
 											<option value="sgmk">SGMK</option>
+											<option value="uwu">UwU-Space</option>
 										</select>
 									</div>
 								</div>
@@ -121,9 +122,10 @@ $page = new Page();
 												<option>- bitte wählen -</option>
 												<option <?=($event['verein'] == "ccc" ? "selected": "")?> value="ccc">CCC</option>
 												<option <?=($event['verein'] == "digiges" ? "selected": "")?> value="digiges">DigiGes</option>
+												<option <?=($event['verein'] == "hackteria" ? "selected": "")?> value="hackteria">Hackteria</option>
 												<option <?=($event['verein'] == "lugs" ? "selected": "")?> value="lugs">LUGS</option>
-												<option <?=($event['verein'] == "rl" ? "selected": "")?> value="rl">RL</option>
 												<option <?=($event['verein'] == "sgmk" ? "selected": "")?> value="sgmk">SGMK</option>
+												<option <?=($event['verein'] == "uwu" ? "selected": "")?> value="uwu">UwU-Space</option>
 											</select>
 										</div>
 									</div>

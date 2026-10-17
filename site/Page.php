@@ -2,23 +2,25 @@
 
 class Page {
 	private $db;
-	private $dbfile = "../config/events.sqlite3";
+	private $dbfile;
 	private $config = [];
 
 	public function __construct() {
 		session_start();
 		date_default_timezone_set('Europe/Zurich');
 
+		$this->dbfile = __DIR__ . "/../config/events.sqlite3";
 		$this->selfcheck();
 		$this->db = new \PDO("sqlite:" . $this->dbfile);
 	}
 
 	private function selfcheck() {
-		if (!file_exists("../config/.env")) {
+		$configFile = __DIR__ . "/../config/.env";
+		if (!file_exists($configFile)) {
 			throw new Exception("Config-File not found");
 		}
 
-		$this->config = parse_ini_file("../config/.env");
+		$this->config = parse_ini_file($configFile);
 		if (empty($this->config['ADMINPASSWORD'])) {
 			throw new Exception("ADMINPASSWORD missing in .env");
 		}
@@ -54,55 +56,59 @@ class Page {
 	public function getEvents() {
 		return $this->db->query("SELECT * FROM events WHERE `enddate` >= '".date("Y-m-d")."' ORDER BY `id`");
 	}
-	public function getNextEvents($limit = 10) {
+	public function getNextEvents($limit = 10, $locale = 'de') {
 		$events = [];
 
 		foreach ($this->db->query("select * from events where enddate >= '" . date("Y-m-d") . " 00:00:01' ORDER BY `startdate` ASC")->fetchAll() as $key => $event) {
 			$newKey = strtotime($event['startdate']) ."-". $key;
 			$events[$newKey] = $event;
 			$startdate = new DateTime($event['startdate'], new DateTimeZone('Europe/Zurich'));
-			$events[$newKey]['startdate'] = IntlDateFormatter::formatObject($startdate, 'eee d MMMM y HH:mm', 'de');
+			$events[$newKey]['startdate'] = IntlDateFormatter::formatObject($startdate, 'eee d MMMM y HH:mm', $locale);
 
 			$enddate = new DateTime($event['enddate'], new DateTimeZone('Europe/Zurich'));
-			$events[$newKey]['enddate'] = IntlDateFormatter::formatObject($enddate, 'eee d MMMM y HH:mm', 'de');
+			$events[$newKey]['enddate'] = IntlDateFormatter::formatObject($enddate, 'eee d MMMM y HH:mm', $locale);
 		}
 
-		$this->addWeeklyEvents($events);
+		$this->addWeeklyEvents($events, $locale);
 		ksort($events);
 
 		$events = array_chunk($events, $limit);
 
-		return $events[0];
+		return $events[0] ?? [];
 	}
 
-	private function addWeeklyEvents(&$events) {
+	private function addWeeklyEvents(&$events, $locale = 'de') {
 		$timestamp = (date('D') == 'Tue' ? strtotime('today') : strtotime('next tuesday'));
 		$events[$timestamp] = [
 			"title" => "Openlab",
-			"description" => "Das offenes Elektroniklabor mit fachlicher Leitung, aktive Arbeit der Mitglieder an laufenden Projekten. Komm vorbei um Dich mit Gleichgesinnten auszutauschen, an laufenden Projekte mitzuwirken oder auch um z.B. zu lernen, wie man lötet, etwas zum blinken oder Geräusche machen bringt.",
+			"description" => $locale === 'en'
+				? "The open electronics lab with professional guidance and members actively working on ongoing projects. Drop by to exchange ideas with like-minded people, collaborate on projects, or learn how to solder, make things blink, or synthesize sounds."
+				: "Das offenes Elektroniklabor mit fachlicher Leitung, aktive Arbeit der Mitglieder an laufenden Projekten. Komm vorbei um Dich mit Gleichgesinnten auszutauschen, an laufenden Projekte mitzuwirken oder auch um z.B. zu lernen, wie man lötet, etwas zum blinken oder Geräusche machen bringt.",
 			"verein" => "SGMK",
-			"startdate" => $this->getDate($timestamp) . " 20:00",
-			"enddate" => $this->getDate($timestamp) . " 23:30",
+			"startdate" => $this->getDate($timestamp, $locale) . " 20:00",
+			"enddate" => $this->getDate($timestamp, $locale) . " 23:30",
 		];
 
 		$timestamp = (date('D') == 'Wed' ? strtotime('today') : strtotime('next wednesday'));
 		$events[$timestamp] = [
 			"title" => "ChaosTreff",
-			"description" => "Das offene Treffen des Chaos Computer Club Zürich, bei dem der Spass am Gerät grossgeschrieben wird, ohne aber den gesellschaftlichen Blick zu verlieren. Komm vorbei um verstehen zu lernen, oder aber beteilige Dich direkt an technischen und politischen Projekten.",
+			"description" => $locale === 'en'
+				? "The open meetup of the Chaos Computer Club Zürich, celebrating the joy of tinkering and technology while keeping a keen eye on societal implications. Drop by to learn, explore, or get directly involved in technical and political projects."
+				: "Das offene Treffen des Chaos Computer Club Zürich, bei dem der Spass am Gerät grossgeschrieben wird, ohne aber den gesellschaftlichen Blick zu verlieren. Komm vorbei um verstehen zu lernen, oder aber beteilige Dich direkt an technischen und politischen Projekten.",
 			"verein" => "CCCZH",
-			"startdate" => $this->getDate($timestamp) . " 19:00",
-			"enddate" => $this->getDate($timestamp) . " 22:00",
+			"startdate" => $this->getDate($timestamp, $locale) . " 19:00",
+			"enddate" => $this->getDate($timestamp, $locale) . " 22:00",
 		];
 
-		$this->addDigiGesEvents($events);
-		$this->addLugsEvents($events);
+		$this->addDigiGesEvents($events, $locale);
+		$this->addLugsEvents($events, $locale);
 
 		// TODO: RL => zu unregelmässig
 		// TODO: OSM => zu unregelmässig
 
 	}
 
-	private function addDigiGesEvents(&$events) {
+	private function addDigiGesEvents(&$events, $locale = 'de') {
 		$timestamp = (date('D') == 'Thu' ? strtotime('today') : strtotime('next thursday'));
 		$date = new DateTime();
 		$date->setTimestamp($timestamp);
@@ -121,16 +127,18 @@ class Page {
 
 		if(!$thirdThursdayInMonth) {
 			$events[$timestamp] = [
-				"title" => "Netzpolitik-Treff",
-				"description" => "für Austausch und Weiterentwicklung der Themen, Ideen, Plänen und Projekte der Digitalen Gesellschaft. Hilf mit, für eine nachhaltige, demokratische und freie Zivilgesellschaft zu sorgen, und verteidige die Grundrechte in einer digital vernetzten Welt. Der «Netzpolitische Treff» findet jeweils nicht statt, wenn der Event \"Netzpolitischer Abend\" im Zentrum Karl der Grosse stattfindet (üblicherweise am dritten Donnerstag im Monat)",
+				"title" => $locale === 'en' ? "Digital Rights Meetup" : "Netzpolitik-Treff",
+				"description" => $locale === 'en'
+					? "for exchange and further development of the topics, ideas, plans and projects of the Digital Society. Help ensure a sustainable, democratic and free civil society, and defend fundamental rights in a digitally connected world. The meetup does not take place when the \"Netzpolitischer Abend\" event takes place at Zentrum Karl der Grosse (usually the third Thursday of the month)."
+					: "für Austausch und Weiterentwicklung der Themen, Ideen, Plänen und Projekte der Digitalen Gesellschaft. Hilf mit, für eine nachhaltige, demokratische und freie Zivilgesellschaft zu sorgen, und verteidige die Grundrechte in einer digital vernetzten Welt. Der «Netzpolitische Treff» findet jeweils nicht statt, wenn der Event \"Netzpolitischer Abend\" im Zentrum Karl der Grosse stattfindet (üblicherweise am dritten Donnerstag im Monat)",
 				"verein" => "DigiGes",
-				"startdate" => $this->getDate($timestamp) . " 18:00",
-				"enddate" => $this->getDate($timestamp) . " 22:00",
+				"startdate" => $this->getDate($timestamp, $locale) . " 18:00",
+				"enddate" => $this->getDate($timestamp, $locale) . " 22:00",
 			];
 		}
 	}
 
-	private function addLugsEvents(&$events) {
+	private function addLugsEvents(&$events, $locale = 'de') {
 		$today = date("Y-m-d");
 		$timestamp = strtotime('2024-02-15 19:15:00');
 		$thursday = new DateTime();
@@ -149,18 +157,20 @@ class Page {
 		$nextEventDay = min($thursday, $friday);
 
 		$events[$nextEventDay->getTimestamp()] = [
-			"title" => "LUGS-Treff",
-			"description" => "Treffen und Vorträge rund um Linux und Open Source. Durch den persönlichen Charakter wird der Einstieg in dieses weltweite Netzwerk leichter. 1994 gegründet und ist die erste Vereinigung der Schweiz, die sich ausschliesslich zur Aufgabe gemacht hat, Linux zu unterstützen.",
+			"title" => $locale === 'en' ? "LUGS Meetup" : "LUGS-Treff",
+			"description" => $locale === 'en'
+				? "Meetups and talks on Linux and Open Source. The personal atmosphere makes it easy to get involved in this worldwide network. Founded in 1994, it is the first association in Switzerland dedicated exclusively to supporting Linux."
+				: "Treffen und Vorträge rund um Linux und Open Source. Durch den persönlichen Charakter wird der Einstieg in dieses weltweite Netzwerk leichter. 1994 gegründet und ist die erste Vereinigung der Schweiz, die sich ausschliesslich zur Aufgabe gemacht hat, Linux zu unterstützen.",
 			"verein" => "LUGS",
-			"startdate" => IntlDateFormatter::formatObject($nextEventDay, 'eee d MMMM y', 'de') . " 19:15",
-			"enddate" => IntlDateFormatter::formatObject($nextEventDay, 'eee d MMMM y', 'de') . " 20:45",
+			"startdate" => IntlDateFormatter::formatObject($nextEventDay, 'eee d MMMM y', $locale) . " 19:15",
+			"enddate" => IntlDateFormatter::formatObject($nextEventDay, 'eee d MMMM y', $locale) . " 20:45",
 		];
 	}
 
-	private function getDate($timestamp) {
+	private function getDate($timestamp, $locale = 'de') {
 		$date = new DateTime();
 		$date->setTimestamp($timestamp);
-		return IntlDateFormatter::formatObject($date, 'eee d MMMM y', 'de');
+		return IntlDateFormatter::formatObject($date, 'eee d MMMM y', $locale);
 	}
 
 	public function saveEvents() {
