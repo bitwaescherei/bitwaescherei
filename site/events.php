@@ -38,9 +38,9 @@ $page = new Page();
 						<div class="h-32 overflow-hidden group bg-gradient-to-br from-blue-800 to-purple-800 p-2  flex-none relative">
 							<div class="text-lg absolute right-2 ml-2 mt-1 inline py-0.5 px-1.5 ring-1 ring-purple-400 bg-purple-900 rounded-xl uppercase"><?= $event['verein'] ?></div>
 
-							<div class="font-bold text-2xl"><?= $event['startdate'] ?> Uhr</div>
-							<?php if (substr($event['startdate'], 0, 10) != substr($event['enddate'], 0, 10)) { ?>
-								<div class="h-6 text-lg"><?= $event['enddate'] ?> Uhr</div>
+							<div class="font-bold text-2xl"><?= $event['startdate'] ?></div>
+							<?php if ($event['multiday']) { ?>
+								<div class="h-6 text-lg"><?= $event['enddate'] ?></div>
 							<?php } else { ?>
 								<div class="h-6"></div>
 							<?php } ?>
